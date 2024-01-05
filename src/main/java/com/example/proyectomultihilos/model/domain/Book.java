@@ -2,17 +2,17 @@ package com.example.proyectomultihilos.model.domain;
 
 import java.util.Objects;
 
-public class Libro {
+public class Book {
 
     private int isbn;
     private String name;
     private String author;
     private boolean available;
 
-    public Libro() {
+    public Book() {
     }
 
-    public Libro(int isbn, String name, String author, boolean available) {
+    public Book(int isbn, String name, String author, boolean available) {
         this.isbn = isbn;
         this.name = name;
         this.author = author;
@@ -56,7 +56,7 @@ public class Libro {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Libro libro = (Libro) o;
+        Book libro = (Book) o;
         return isbn == libro.isbn;
     }
 

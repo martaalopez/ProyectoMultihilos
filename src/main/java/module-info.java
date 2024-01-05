@@ -1,6 +1,8 @@
 module com.example.proyectomultihilos {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.sql;
+    requires java.xml.bind;
 
 
     opens com.example.proyectomultihilos to javafx.fxml;
