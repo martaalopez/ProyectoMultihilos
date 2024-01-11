@@ -6,7 +6,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
 import java.io.IOException;
 
 public class App extends Application {
@@ -16,7 +15,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("login"), 742, 530);
+        scene = new Scene(loadFXML("bookshelve"), 1000, 700);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
@@ -42,22 +41,5 @@ public class App extends Application {
         launch();
     }
 
-    // Método para tomar un libro desde la interfaz gráfica
-    public static void tomarLibroDesdeInterfaz() {
-        // Crear un hilo para tomar un libro
-        Thread tomador = new Thread(() -> {
-            bookDAO.tomarLibro();
-        });
-        tomador.start();
-    }
-
-    // Método para devolver un libro desde la interfaz gráfica
-    public static void devolverLibroDesdeInterfaz() {
-        // Crear un hilo para devolver un libro
-        Thread devolvedor = new Thread(() -> {
-            bookDAO.devolverLibro();
-        });
-        devolvedor.start();
-    }
 
 }

@@ -12,7 +12,73 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 public class BookDAO {
-    private ConnectionMySQL connection;
+    private List<Book> books;
+
+    public BookDAO() {
+        this.books = new ArrayList<>();
+    }
+
+    public synchronized void addBook(Book book) {
+        books.add(book);
+        System.out.println("Libro agregado: " + book.getName());
+    }
+
+    public synchronized Book borrowBook() {
+        if (!books.isEmpty()) {
+            Book borrowedBook = books.remove(0);
+            System.out.println("Libro prestado: " + borrowedBook.getName());
+            return borrowedBook;
+        } else {
+            System.out.println("No hay libros disponibles para prestar.");
+            return null;
+        }
+    }
+
+    public synchronized void returnBook(Book book) {
+        books.add(book);
+        System.out.println("Libro devuelto: " + book.getName());
+    }
+
+    public void updateBooksInfo() {
+
+        List<Book> bookList = new ArrayList<>(books);
+
+
+        List<Thread> threads = new ArrayList<>();
+        for (Book book : bookList) {
+            Thread thread = new Thread(() -> {
+                synchronized (book) {
+
+                    book.setName(book.getName() + " - Actualizado");
+
+                    System.out.println("Información actualizada para: " + book.getName());
+                }
+            });
+            threads.add(thread);
+            thread.start();
+        }
+
+
+        for (Thread thread : threads) {
+            try {
+                thread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("Actualización masiva de información completa.");
+    }
+    public synchronized Book getBookByIndex(int index) {
+        if (index >= 0 && index < books.size()) {
+            return books.get(index);
+        } else {
+            System.out.println("Índice fuera de rango.");
+            return null;
+        }
+    }
+
+    /*private ConnectionMySQL connection;
 
     private ExecutorService executorService;
 
@@ -131,25 +197,9 @@ public class BookDAO {
     }
 
 
-    /**************************************************/
-    private int prestamosActuales = 0;
+   */
 
 
-    public synchronized void tomarLibro() {
-        prestamosActuales++;
-        System.out.println("Libro tomado por usuario: " + Thread.currentThread().getName());
-    }
-
-
-    public synchronized void devolverLibro() {
-        prestamosActuales--;
-        System.out.println("Libro devuelto por usuario: " + Thread.currentThread().getName());
-    }
-
-
-    public int getPrestamosActuales() {
-        return prestamosActuales;
-    }
 
 }
 
