@@ -7,88 +7,96 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="619.0" prefWidth="1068.0" style="-fx-background-color: #587369;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.proyectomultihilos.controller.BookshelveController">
-   <children>
-      <Label layoutX="451.0" layoutY="48.0" text="Literary Mirage " textFill="#f2a03d">
-         <font>
-            <Font size="24.0" />
-         </font>
-      </Label>
-      <GridPane layoutX="836.0" layoutY="298.0" prefHeight="203.0" prefWidth="167.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <children>
+        <Label layoutX="451.0" layoutY="48.0" text="Literary Mirage " textFill="#f2a03d">
+            <font>
+                <Font size="24.0" />
+            </font>
+        </Label>
+        <GridPane layoutX="836.0" layoutY="298.0" prefHeight="203.0" prefWidth="167.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Button fx:id="btnBorrow" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Prestar" textFill="#d94e4e" />
+                <Button fx:id="btnReturn" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Devolver" textFill="#d94e4e" GridPane.rowIndex="2" />
+                <Button fx:id="btnHistory" mnemonicParsing="false" onAction="#updateInfo" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Refrescar Información" textFill="#d94e4e" GridPane.rowIndex="4" />
+            </children>
+        </GridPane>
+        <Label layoutX="734.0" layoutY="113.0" text="Numero de libros actualmente disponibles: " textFill="WHITE">
+            <font>
+                <Font size="14.0" />
+            </font>
+        </Label>
+        <Label alignment="CENTER" layoutX="822.0" layoutY="154.0" text="Nuemro de libros" textFill="WHITE" />
+        <Button layoutX="39.0" layoutY="31.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="49.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" textFill="#d94e4e" />
+        <ImageView fitHeight="35.0" fitWidth="49.0" layoutX="46.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+                <Image url="@../img/arrow.png" />
+            </image>
+        </ImageView>
+        <Pane layoutX="88.0" layoutY="224.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
+        <Pane layoutX="88.0" layoutY="224.0" prefHeight="6.0" prefWidth="478.0" style="-fx-background-color: white;" />
+        <Pane layoutX="560.0" layoutY="224.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
+        <GridPane alignment="CENTER" layoutX="88.0" layoutY="133.0" prefHeight="91.0" prefWidth="478.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Button fx:id="btnBorrow" mnemonicParsing="false" onAction="#borrowBook" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Prestar" textFill="#d94e4e" />
-            <Button fx:id="btnReturn" mnemonicParsing="false" onAction="#returnBook" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Devolver" textFill="#d94e4e" GridPane.rowIndex="2" />
-            <Button fx:id="btnUpdateInfo" mnemonicParsing="false" onAction="#updateInfo" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Refrescar Información" textFill="#d94e4e" GridPane.rowIndex="4" />
-         </children>
-      </GridPane>
-      <Label layoutX="734.0" layoutY="113.0" text="Numero de libros actualmente disponibles: " textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutX="822.0" layoutY="154.0" text="Nuemro de libros" textFill="WHITE" />
-      <Button layoutX="39.0" layoutY="31.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="49.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" textFill="#d94e4e" />
-      <ImageView fitHeight="35.0" fitWidth="49.0" layoutX="46.0" layoutY="31.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../img/arrow.png" />
-         </image>
-      </ImageView>
-      <Pane layoutX="88.0" layoutY="224.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
-      <Pane layoutX="88.0" layoutY="224.0" prefHeight="6.0" prefWidth="478.0" style="-fx-background-color: white;" />
-      <Pane layoutX="560.0" layoutY="224.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
-      <GridPane alignment="CENTER" layoutX="88.0" layoutY="133.0" prefHeight="91.0" prefWidth="478.0">
-        <columnConstraints>
-          <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="26.0" GridPane.rowIndex="1" />
-            <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Label rotate="-90.0" text="El quijote" textFill="#460707" GridPane.rowIndex="1" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Rectangle fx:id="rec2" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="96.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                <Label rotate="-90.0" text="El quijote" textFill="#460707" GridPane.rowIndex="5" />
+                <Rectangle fx:id="rec1" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="96.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="20.0" GridPane.rowIndex="4" />
 
-         </children>
-      </GridPane>
-      <Pane layoutX="88.0" layoutY="401.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
-      <Pane layoutX="88.0" layoutY="401.0" prefHeight="6.0" prefWidth="478.0" style="-fx-background-color: white;" />
-      <Pane layoutX="560.0" layoutY="401.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
-      <GridPane alignment="CENTER" layoutX="88.0" layoutY="310.0" prefHeight="91.0" prefWidth="478.0">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <Rectangle fx:id="rec3" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.rowIndex="1" />
-            <Rectangle fx:id="rec4" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-         </children>
-      </GridPane>
-      <TextArea fx:id="txtArea" layoutX="63.0" layoutY="503.0" prefHeight="116.0" prefWidth="521.0" />
-   </children>
+            </children>
+        </GridPane>
+        <Pane layoutX="88.0" layoutY="401.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
+        <Pane layoutX="88.0" layoutY="401.0" prefHeight="6.0" prefWidth="478.0" style="-fx-background-color: white;" />
+        <Pane layoutX="560.0" layoutY="401.0" prefHeight="64.0" prefWidth="6.0" style="-fx-background-color: white;" />
+        <GridPane alignment="CENTER" layoutX="88.0" layoutY="310.0" prefHeight="91.0" prefWidth="478.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+            </rowConstraints>
+            <children>
+                <Rectangle fx:id="rec3" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.rowIndex="1" />
+                <Rectangle fx:id="rec4" arcHeight="5.0" arcWidth="5.0" fill="#b1cae1" height="91.0" onMouseClicked="#showBookInfo" stroke="BLACK" strokeType="INSIDE" width="18.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            </children>
+        </GridPane>
+        <TextArea fx:id="txtArea" layoutX="63.0" layoutY="503.0" prefHeight="116.0" prefWidth="521.0" />
+    </children>
 </AnchorPane>
