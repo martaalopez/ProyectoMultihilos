@@ -18,13 +18,11 @@ public class BookDAO {
         return new ArrayList<>(history);
     }
 
-    /*agregar libros*/
     public synchronized void addBook(Book book) {
         books.add(book);
         System.out.println("Libro agregado: " + book.getName());
         notify(); // Notificar a los consumidores que hay un nuevo libro disponible.
     }
-
 
     public synchronized Book borrowBook() {
         while (books.isEmpty()) {
@@ -34,31 +32,21 @@ public class BookDAO {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
-    public synchronized void borrowBook(Book selectedBook) {
-        if (selectedBook.isAvailable()) {
-            selectedBook.setAvailable(false);
-            history.add("Libro prestado: " + selectedBook.getName());
-            System.out.println("Libro prestado: " + selectedBook.getName());
-        } else {
-            System.out.println("El libro ya está prestado.");
-
         }
+
         Book borrowedBook = books.remove(0);
+        borrowedBook.setAvailable(false); // Actualizar la disponibilidad
+        history.add("Libro prestado: " + borrowedBook.getName());
         System.out.println("Libro prestado: " + borrowedBook.getName());
         return borrowedBook;
     }
 
-
-    public synchronized void returnBook(Book book) {
-        books.add(book);
-        System.out.println("Libro devuelto: " + book.getName());
-        notify(); // Notificar a los productores que hay un libro disponible para prestar.
-
     public synchronized void returnBook(Book selectedBook) {
-        selectedBook.setAvailable(true);
+        selectedBook.setAvailable(true); // Actualizar la disponibilidad
         history.add("Libro devuelto: " + selectedBook.getName());
         System.out.println("Libro devuelto: " + selectedBook.getName());
-
+        books.add(selectedBook);
+        notify(); // Notificar a los productores que hay un libro disponible para prestar.
     }
 
     public void updateBooksInfo() {
@@ -97,9 +85,7 @@ public class BookDAO {
             return null;
         }
     }
-
-    }
-
+}
     /*private ConnectionMySQL connection;
 
     private ExecutorService executorService;
@@ -226,5 +212,4 @@ public class BookDAO {
 
 
 
-}
 
