@@ -1,28 +1,30 @@
 package com.example.proyectomultihilos.model.DAO;
 
-import com.example.proyectomultihilos.conexion.ConnectionMySQL;
 import com.example.proyectomultihilos.model.domain.Book;
 
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 public class BookDAO {
     private List<Book> books;
+    private List<String> history;
 
     public BookDAO() {
         this.books = new ArrayList<>();
+        this.history = new ArrayList<>();
     }
 
+    public List<String> getHistory() {
+        return new ArrayList<>(history);
+    }
+
+    /*agregar libros*/
     public synchronized void addBook(Book book) {
         books.add(book);
         System.out.println("Libro agregado: " + book.getName());
         notify(); // Notificar a los consumidores que hay un nuevo libro disponible.
     }
+
 
     public synchronized Book borrowBook() {
         while (books.isEmpty()) {
@@ -32,16 +34,31 @@ public class BookDAO {
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
+    public synchronized void borrowBook(Book selectedBook) {
+        if (selectedBook.isAvailable()) {
+            selectedBook.setAvailable(false);
+            history.add("Libro prestado: " + selectedBook.getName());
+            System.out.println("Libro prestado: " + selectedBook.getName());
+        } else {
+            System.out.println("El libro ya está prestado.");
+
         }
         Book borrowedBook = books.remove(0);
         System.out.println("Libro prestado: " + borrowedBook.getName());
         return borrowedBook;
     }
 
+
     public synchronized void returnBook(Book book) {
         books.add(book);
         System.out.println("Libro devuelto: " + book.getName());
         notify(); // Notificar a los productores que hay un libro disponible para prestar.
+
+    public synchronized void returnBook(Book selectedBook) {
+        selectedBook.setAvailable(true);
+        history.add("Libro devuelto: " + selectedBook.getName());
+        System.out.println("Libro devuelto: " + selectedBook.getName());
+
     }
 
     public void updateBooksInfo() {
@@ -51,16 +68,14 @@ public class BookDAO {
         for (Book book : bookList) {
             Thread thread = new Thread(() -> {
                 synchronized (book) {
-
                     book.setName(book.getName() + " - Actualizado");
-
+                    history.add("Información actualizada para: " + book.getName());
                     System.out.println("Información actualizada para: " + book.getName());
                 }
             });
             threads.add(thread);
             thread.start();
         }
-
 
         for (Thread thread : threads) {
             try {
@@ -70,8 +85,10 @@ public class BookDAO {
             }
         }
 
+        history.add("Actualización masiva de información completa.");
         System.out.println("Actualización masiva de información completa.");
     }
+
     public synchronized Book getBookByIndex(int index) {
         if (index >= 0 && index < books.size()) {
             return books.get(index);
@@ -80,6 +97,7 @@ public class BookDAO {
             return null;
         }
     }
+
     }
 
     /*private ConnectionMySQL connection;
@@ -206,4 +224,7 @@ public class BookDAO {
 
 
 
+
+
+}
 

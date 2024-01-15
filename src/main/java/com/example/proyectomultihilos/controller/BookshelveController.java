@@ -3,15 +3,17 @@ package com.example.proyectomultihilos.controller;
 import com.example.proyectomultihilos.model.DAO.BookDAO;
 import com.example.proyectomultihilos.model.domain.Book;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.shape.Rectangle;
 
-import java.sql.Date;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -35,96 +37,141 @@ public class BookshelveController {
     private Button btnReturn;
 
     @FXML
-    private Button btnUpdateInfo;
+    private Button btnHistory;
 
     @FXML
     private TextArea txtArea;
 
-
-
     private final BookDAO library = new BookDAO();
     private final ExecutorService executorService = Executors.newFixedThreadPool(5);
-    Date loanDate = Date.valueOf("2024-01-10");
-    Date returnDate = Date.valueOf("2024-01-10");
 
+    private boolean collectingInfo = false;
 
-    public BookshelveController () {
-        library.addBook(new Book(123, "El quijote", "Miguel de Cervantes", true, loanDate, returnDate));
-    }
-
-    @FXML
-    void borrowBook(ActionEvent event) {
-        executorService.submit(() -> {
-            Book borrowedBook = library.borrowBook();
-            if (borrowedBook != null) {
-                Platform.runLater(() -> txtArea.appendText("Libro prestado: " + borrowedBook.getName() + ".\n"));
-            } else {
-                Platform.runLater(() -> txtArea.appendText("No hay libros disponibles para prestar.\n"));
-            }
-        });
-    }
-
-    @FXML
-    void returnBook(ActionEvent event) {
-        executorService.submit(() -> {
-            Book returnedBook = new Book(0,"Libro devuelto","",true,loanDate,returnDate);
-            library.returnBook(returnedBook);
-            Platform.runLater(() -> txtArea.appendText("Libro devuelto: " + returnedBook.getName() + ".\n"));
-        });
+    public BookshelveController() {
+        library.addBook(new Book(123, "El quijote", "Miguel de Cervantes", true));
+        library.addBook(new Book(124, "Bajo la misma estrella", "John Green", true));
+        library.addBook(new Book(125, "El perfume", "Patrick Süskind", true));
+        library.addBook(new Book(126, "Ciencia", "Carl Sagan", true));
     }
 
     @FXML
     void updateInfo(ActionEvent event) {
-        executorService.submit(() -> {
-            library.updateBooksInfo();
-            Platform.runLater(() -> txtArea.appendText("Actualización masiva de información completa.\n"));
-        });
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                // Deshabilitar el TextArea mientras se recopila información
+                Platform.runLater(() -> txtArea.setDisable(true));
+
+                library.updateBooksInfo();
+
+                // Habilitar el TextArea después de completar la recopilación de información
+                Platform.runLater(() -> {
+                    txtArea.appendText("Actualización masiva de información completa.\n");
+                    txtArea.setDisable(false);
+                });
+
+                return null;
+            }
+        };
+
+        executorService.submit(task);
     }
+
     @FXML
     void initialize() {
         rec1.setOnMouseClicked(this::showBookInfo);
         rec2.setOnMouseClicked(this::showBookInfo);
         rec3.setOnMouseClicked(this::showBookInfo);
         rec4.setOnMouseClicked(this::showBookInfo);
+
+        btnHistory.setOnAction(this::showHistory);
     }
 
     @FXML
     private void showBookInfo(MouseEvent event) {
-        Rectangle selectedRectangle = (Rectangle) event.getSource();
-        Book selectedBook = getSelectedBook(selectedRectangle); // Obtener el libro seleccionado
-        if (selectedBook != null) {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Información del libro");
-            alert.setHeaderText(selectedBook.getName());
-            alert.setContentText("Autor: " + selectedBook.getAuthor() + "\n" +
-                    "Disponibilidad: " + (selectedBook.isAvailable() ? "Disponible" : "No disponible"));
-            alert.showAndWait();
+        if (!collectingInfo) {
+            Rectangle selectedRectangle = (Rectangle) event.getSource();
+            Book selectedBook = getSelectedBook(selectedRectangle);
+
+            if (selectedBook != null) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Información del libro");
+                alert.setHeaderText(selectedBook.getName());
+
+                ButtonType prestarButton = new ButtonType("Prestar");
+                ButtonType devolverButton = new ButtonType("Devolver");
+
+                alert.getButtonTypes().setAll(prestarButton, devolverButton);
+                alert.setContentText("Autor: " + selectedBook.getAuthor() + "\n" +
+                        "Disponibilidad: " + (selectedBook.isAvailable() ? "Disponible" : "No disponible"));
+
+                ButtonType result = alert.showAndWait().orElse(null);
+
+                if (result == prestarButton) {
+                    prestarLibro(selectedBook);
+                } else if (result == devolverButton) {
+                    devolverLibro(selectedBook);
+                }
+            }
         }
     }
 
     private Book getSelectedBook(Rectangle selectedRectangle) {
         if (selectedRectangle == rec1) {
-
             return library.getBookByIndex(0);
         } else if (selectedRectangle == rec2) {
-
             return library.getBookByIndex(1);
         } else if (selectedRectangle == rec3) {
-
             return library.getBookByIndex(2);
         } else if (selectedRectangle == rec4) {
-
             return library.getBookByIndex(3);
         }
 
         return null;
     }
 
+    private void prestarLibro(Book selectedBook) {
+        executorService.submit(() -> {
+            if (selectedBook.isAvailable()) {
+                library.borrowBook(selectedBook); // Llamar al método borrowBook de BookDAO
+                Platform.runLater(() -> txtArea.appendText("Libro prestado: " + selectedBook.getName() + ".\n"));
+            } else {
+                Platform.runLater(() -> txtArea.appendText("El libro ya está prestado.\n"));
+            }
+        });
+    }
+    /*devolver*/
+    private void devolverLibro(Book selectedBook) {
+        executorService.submit(() -> {
+            library.returnBook(selectedBook); // Llamar al método returnBook de BookDAO
+            Platform.runLater(() -> txtArea.appendText("Libro devuelto: " + selectedBook.getName() + ".\n"));
+        });
+    }
 
+    @FXML
+    void showHistory(ActionEvent event) {
+        Task<Void> task = new Task<>() {
+            @Override
+            protected Void call() {
+                // Deshabilitar el TextArea mientras se recopila el historial
+                Platform.runLater(() -> txtArea.setDisable(true));
 
+                List<String> historyEntries = library.getHistory();
+                Platform.runLater(() -> {
+                    txtArea.clear();
+                    for (String entry : historyEntries) {
+                        txtArea.appendText(entry + "\n");
+                    }
 
+                    // Habilitar el TextArea después de completar la recopilación del historial
+                    txtArea.setDisable(false);
+                });
 
+                return null;
+            }
+        };
 
-
-
+        executorService.submit(task);
+    }
 }
+
