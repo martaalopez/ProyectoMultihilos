@@ -21,28 +21,31 @@ public class BookDAO {
     public synchronized void addBook(Book book) {
         books.add(book);
         System.out.println("Libro agregado: " + book.getName());
+        notify(); // Notificar a los consumidores que hay un nuevo libro disponible.
     }
 
     public synchronized Book borrowBook() {
-        if (!books.isEmpty()) {
-            Book borrowedBook = books.remove(0);
-            System.out.println("Libro prestado: " + borrowedBook.getName());
-            return borrowedBook;
-        } else {
-            System.out.println("No hay libros disponibles para prestar.");
-            return null;
+        while (books.isEmpty()) {
+            try {
+                // Esperar si no hay libros disponibles.
+                wait();
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
         }
+        Book borrowedBook = books.remove(0);
+        System.out.println("Libro prestado: " + borrowedBook.getName());
+        return borrowedBook;
     }
 
     public synchronized void returnBook(Book book) {
         books.add(book);
         System.out.println("Libro devuelto: " + book.getName());
+        notify(); // Notificar a los productores que hay un libro disponible para prestar.
     }
 
     public void updateBooksInfo() {
-
         List<Book> bookList = new ArrayList<>(books);
-
 
         List<Thread> threads = new ArrayList<>();
         for (Book book : bookList) {
@@ -76,6 +79,7 @@ public class BookDAO {
             System.out.println("Índice fuera de rango.");
             return null;
         }
+    }
     }
 
     /*private ConnectionMySQL connection;
@@ -201,5 +205,5 @@ public class BookDAO {
 
 
 
-}
+
 
