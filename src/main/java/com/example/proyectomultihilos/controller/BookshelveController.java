@@ -29,6 +29,15 @@ public class BookshelveController {
 
     @FXML
     private Rectangle rec4;
+
+    @FXML
+    private Rectangle rec5;
+
+    @FXML
+    private Rectangle rec6;
+
+    @FXML
+    private Rectangle rec7;
     @FXML
     private Button btnBorrow;
 
@@ -51,6 +60,10 @@ public class BookshelveController {
         library.addBook(new Book(124, "Bajo la misma estrella", "John Green", true));
         library.addBook(new Book(125, "El perfume", "Patrick Süskind", true));
         library.addBook(new Book(126, "Ciencia", "Carl Sagan", true));
+        library.addBook(new Book(127, "Orgullo y prejuicio", "Jane Austen", true));
+        library.addBook(new Book(128, "Crimen y castigo", "Carl Sagan", true));
+        library.addBook(new Book(129, "Cien años de soledad", "Gabriel Garcia Márquez", true));
+
     }
 
     @FXML
@@ -82,6 +95,9 @@ public class BookshelveController {
         rec2.setOnMouseClicked(this::showBookInfo);
         rec3.setOnMouseClicked(this::showBookInfo);
         rec4.setOnMouseClicked(this::showBookInfo);
+        rec5.setOnMouseClicked(this::showBookInfo);
+        rec6.setOnMouseClicked(this::showBookInfo);
+        rec7.setOnMouseClicked(this::showBookInfo);
 
         btnHistory.setOnAction(this::showHistory);
     }
@@ -124,6 +140,13 @@ public class BookshelveController {
             return library.getBookByIndex(2);
         } else if (selectedRectangle == rec4) {
             return library.getBookByIndex(3);
+        }
+        else if (selectedRectangle == rec5) {
+            return library.getBookByIndex(4);
+        } else if (selectedRectangle == rec6) {
+            return library.getBookByIndex(5);
+        } else if (selectedRectangle == rec7) {
+            return library.getBookByIndex(6);
         }
 
         return null;
