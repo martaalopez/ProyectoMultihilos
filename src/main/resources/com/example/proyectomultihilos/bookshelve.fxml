@@ -25,8 +25,6 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <Button fx:id="btnBorrow" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Prestar" textFill="#d94e4e" />
-                <Button fx:id="btnReturn" mnemonicParsing="false" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Devolver" textFill="#d94e4e" GridPane.rowIndex="2" />
                 <Button fx:id="btnHistory" mnemonicParsing="false" onAction="#updateInfo" prefHeight="35.0" prefWidth="115.0" style="-fx-background-color: #C7D9A0; -fx-background-radius: 8px;" text="Refrescar Información" textFill="#d94e4e" GridPane.rowIndex="4" />
             </children>
         </GridPane>

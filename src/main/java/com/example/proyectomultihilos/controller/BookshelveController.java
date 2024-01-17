@@ -1,5 +1,4 @@
 package com.example.proyectomultihilos.controller;
-
 import com.example.proyectomultihilos.model.DAO.BookDAO;
 import com.example.proyectomultihilos.model.domain.Book;
 import javafx.application.Platform;
@@ -147,7 +146,6 @@ public class BookshelveController {
             Platform.runLater(() -> txtArea.appendText("Libro devuelto: " + selectedBook.getName() + ".\n"));
         });
     }
-
     @FXML
     void showHistory(ActionEvent event) {
         Task<Void> task = new Task<>() {
