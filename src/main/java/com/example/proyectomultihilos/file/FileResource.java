@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FileResource {
-    // Ruta del archivo
     private String filePath;
 
     // Constructor que recibe la ruta del archivo

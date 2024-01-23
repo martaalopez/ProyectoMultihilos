@@ -1,0 +1,7 @@
+
+l
+java:S1450"VRemove the "bookDAO" field and declare it as a local variable in the relevant methods.(÷Õ¾­
+L
+java:S2696"6Make the enclosing method "static" or remove this set.(øÐßÑ
+A
+java:S1068"+Remove this unused "bookDAO" private field.(÷Õ¾­
